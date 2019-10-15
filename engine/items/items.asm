@@ -1333,7 +1333,11 @@ ItemUseMedicine:
 	ld bc, wPartyMon1Level - wPartyMon1
 	add hl, bc ; hl now points to level
 	ld a, [hl] ; a = level
-	cp MAX_LEVEL
+	ld c, a	   
+	ld a, [wMAX_LEVEL]
+	ld b, a
+	ld a, c
+	cp b 	   ; cp MAX_LEVEL
 	jr z, .vitaminNoEffect ; can't raise level above 100
 	inc a
 	ld [hl], a ; store incremented level
@@ -2289,9 +2293,12 @@ ItemUseTMHM:
 	and a
 	ret z
 	ld a, [wcf91]
-	call IsItemHM
-	ret c
-	jp RemoveUsedItem
+	; Infinite TMs
+	;call IsItemHM
+	;ret c
+	;jp RemoveUsedItem
+	ret
+	ret
 
 BootedUpTMText:
 	TX_FAR _BootedUpTMText
@@ -2599,7 +2606,12 @@ TossItem_:
 	ld a, [wIsKeyItem]
 	pop hl
 	and a
-	jr nz, .tooImportantToToss
+	jr z, .DoToss
+	ld a, [wcf91]
+	cp HM_01
+	jr nc, .DoToss
+	jr .tooImportantToToss
+.DoToss
 	push hl
 	ld a, [wcf91]
 	ld [wd11e], a
@@ -2637,7 +2649,7 @@ TossItem_:
 	pop hl
 	scf
 	ret
-
+	
 ThrewAwayItemText:
 	TX_FAR _ThrewAwayItemText
 	db "@"
@@ -2662,7 +2674,7 @@ IsKeyItem_:
 	ld [wIsKeyItem], a
 	ld a, [wcf91]
 	cp HM_01 ; is the item an HM or TM?
-	jr nc, .checkIfItemIsHM
+	ret nc   ; Item is key if HM or TM, not just HM. (jr nc, .checkIfItemIsHM)
 ; if the item is not an HM or TM
 	push af
 	ld hl, KeyItemBitfield
