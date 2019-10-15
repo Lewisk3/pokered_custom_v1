@@ -115,7 +115,12 @@ rLCDC_DEFAULT EQU %11100011
 	call ClearSprites
 	ld a, rLCDC_DEFAULT
 	ld [rLCDC], a
+; Start WRAM defaults >
 
+	ld a, MAX_LEVEL 		; Setup psuedo-constant, wMAX_LEVEL.
+	ld [wMAX_LEVEL], a
+	
+; End WRAM defaults	  <
 	jp SetDefaultNamesBeforeTitlescreen
 
 ClearVram:
