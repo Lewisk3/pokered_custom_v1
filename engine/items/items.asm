@@ -2298,7 +2298,6 @@ ItemUseTMHM:
 	;ret c
 	;jp RemoveUsedItem
 	ret
-	ret
 
 BootedUpTMText:
 	TX_FAR _BootedUpTMText
