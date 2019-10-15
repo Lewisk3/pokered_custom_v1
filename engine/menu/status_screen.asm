@@ -249,6 +249,8 @@ PrintStatsBox:
 	ld a, d
 	and a ; a is 0 from the status screen
 	jr nz, .DifferentBox
+	xor a		
+	ld [wBuffer], a	; This is used to make DVs NOT print on level up.
 	coord hl, 0, 8
 	ld b, 8
 	ld c, 8
@@ -257,6 +259,8 @@ PrintStatsBox:
 	ld bc, $0019 ; Number offset
 	jr .PrintStats
 .DifferentBox
+	ld a, 1
+	ld [wBuffer], a
 	coord hl, 9, 2
 	ld b, 8
 	ld c, 9
@@ -279,7 +283,60 @@ PrintStatsBox:
 	ld de, wLoadedMonSpeed
 	call PrintStat
 	ld de, wLoadedMonSpecial
-	jp PrintNumber
+	call PrintStat
+	; Print DVs
+	ld a, [wBuffer]			  ; Check if .DifferentBox, if so exit.
+	cp 1
+	jr z, .PrintStatFinish
+	coord hl, 16, 9
+	ld de, wLoadedMonAttack-9 ; AtkDef
+	ld c, 0
+	call PrintDV 			  ; Atk
+	ld c, 1
+	call PrintDV			  ; Def
+	ld de, wLoadedMonAttack-8 ; SpdSpc
+	ld c, 0
+	call PrintDV 			  ; Spd
+	ld c, 1
+	call PrintDV			  ; Spc
+.PrintStatFinish
+	ret
+	
+; @inputs
+;   HL as Screen coord
+;	DE as Memory location for DV byte.
+;	c  as DV index, 0 or 1 (First DV, Second DV)
+; @outputs
+;	Moves screen coord so that it is lined up for next print.
+;   Persists DE
+PrintDV:
+	push de
+	xor a				; Clear Buffer slot, so MSB is always 0.
+	ld [wBuffer+1], a
+	ld a, c
+	cp 1
+	jr nc, .DVTwo
+.DVOne 
+	ld a, [de]			; Load DV byte
+	and a, $F0			; Pull MSB Nybble
+	srl a				; Shift into LSB
+	srl a
+	srl a
+	srl a
+	ld [wBuffer+2], a  ; Print to screen
+	ld de, wBuffer+1
+	call PrintStat
+	pop de
+	ret
+.DVTwo
+	ld a, [de]
+	and a, $0F		    ; Pull LSB Nybble
+	ld [wBuffer+2], a
+	ld de, wBuffer+1
+	call PrintStat
+	pop de
+	ret
+	
 PrintStat:
 	push hl
 	call PrintNumber
@@ -392,8 +449,9 @@ StatusScreen2:
 	ld de, StatusScreenExpText
 	call PlaceString
 	ld a, [wLoadedMonLevel]
+	ld hl, wMAX_LEVEL
 	push af
-	cp MAX_LEVEL
+	cp [hl] ; cp MAX_LEVEL
 	jr z, .Level100
 	inc a
 	ld [wLoadedMonLevel], a ; Increase temporarily if not 100
@@ -438,7 +496,8 @@ StatusScreen2:
 
 CalcExpToLevelUp:
 	ld a, [wLoadedMonLevel]
-	cp MAX_LEVEL
+	ld hl, wMAX_LEVEL
+	cp [hl] ; cp MAX_LEVEL
 	jr z, .atMaxLevel
 	inc a
 	ld d, a
