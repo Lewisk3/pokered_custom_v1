@@ -4715,7 +4715,7 @@ CriticalHitTest:
 	ld b, $ff                    ; cap at 255/256
 	jr .noFocusEnergyUsed
 .focusEnergyUsed
-	srl b
+	sla b						 ; Originally srl, which resulted in the above bug. This is now fixed.
 .noFocusEnergyUsed
 	ld hl, HighCriticalMoves     ; table of high critical hit moves
 .Loop
@@ -5534,6 +5534,7 @@ MoveHitTest:
 ; note that this means that even the highest accuracy is still just a 255/256 chance, not 100%
 	call BattleRandom
 	cp b
+	ret z ; Fix Gen 1 miss.
 	jr nc, .moveMissed
 	ret
 .moveMissed

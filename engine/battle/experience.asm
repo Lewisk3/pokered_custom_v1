@@ -59,7 +59,19 @@ GainExperience:
 	ld [H_MULTIPLICAND + 1], a
 	ld a, [wEnemyMonBaseExp]
 	ld [H_MULTIPLICAND + 2], a
-	ld a, [wEnemyMonLevel]
+	ld a, [wEnemyMonLevel]		; B = Enemy Level, A = Half of Max Level.
+	ld b, a						; If enemy mon level is above half the max level boost EXP by 200% else 150%.
+	ld a, [wMAX_LEVEL]
+	srl a
+	ld c, b
+	srl c
+	cp b					
+	ld a, b						; Restore enemy level to A.
+	jr nc, .halfBoostMultiply
+	add c	
+	add c
+.halfBoostMultiply				
+	add c
 	ld [H_MULTIPLIER], a
 	call Multiply
 	ld a, 7
@@ -73,6 +85,12 @@ GainExperience:
 	ld a, [wPlayerID]
 	cp b
 	jr nz, .tradedMon
+	ld a, [wEnemyMonLevel]		; Check for level disadvantage, if so boost exp.
+	ld b, a 					; Can only load [r16] into a ://
+	ld a, [wPartyMon1Level]
+	add 4 						; Only apply advantage if atleast 4 levels greater.
+	cp b
+	jr c, .tradedMon
 	ld b, [hl]
 	ld a, [wPlayerID + 1]
 	cp b
@@ -116,7 +134,8 @@ GainExperience:
 	ld a, [hl] ; species
 	ld [wd0b5], a
 	call GetMonHeader
-	ld d, MAX_LEVEL
+	ld a, [wMAX_LEVEL]	  ;ld d, MAX_LEVEL
+	ld d, a
 	callab CalcExperience ; get max exp
 ; compare max exp with current exp
 	ld a, [hExperience]
