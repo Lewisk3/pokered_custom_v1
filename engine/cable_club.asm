@@ -255,10 +255,11 @@ CableClub_DoBattleOrTradeAgain:
 	ld hl, wEnemyMons + (SERIAL_PREAMBLE_BYTE - 1)
 	dec c
 	jr nz, .unpatchEnemyMonsLoop
-	ld a, wEnemyMonOT % $100
-	ld [wUnusedCF8D], a
+	; Purposeless code, recycled to use as wMAX_LEVEL.
+	;ld a, wEnemyMonOT % $100
+	;ld [wUnusedCF8D], a
 	ld a, wEnemyMonOT / $100
-	ld [wUnusedCF8D + 1], a
+	;ld [wUnusedCF8D + 1], a
 	xor a
 	ld [wTradeCenterPointerTableIndex], a
 	ld a, $ff
