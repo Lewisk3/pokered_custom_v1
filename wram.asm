@@ -62,7 +62,7 @@ ENDM
 
 SECTION "WRAM Bank 0", WRAM0
 
-wUnusedC000:: ; c000
+wUnusedC000::
 	ds 1
 
 wSoundID:: ; c001
@@ -1452,9 +1452,8 @@ wItemList:: ; cf7b
 wListPointer:: ; cf8b
 	ds 2
 
-wUnusedCF8D:: ; cf8d
-; 2 bytes
-; used to store pointers, but never read
+wMAX_LEVEL:: ; cf8d (wUnusedCF8D:: used to store pointers, but never read)
+; 2 bytes, to keep memory offset, only 1 is used.
 	ds 2
 
 wItemPrices:: ; cf8f

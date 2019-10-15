@@ -3305,10 +3305,11 @@ GetName::
 	ld bc, $0014
 	call CopyData
 .gotPtr
-	ld a, e
-	ld [wUnusedCF8D], a
-	ld a, d
-	ld [wUnusedCF8D + 1], a
+	; Purposeless code, recycled.
+	;ld a, e
+	;ld [wUnusedCF8D], a
+	;ld a, d
+	;ld [wUnusedCF8D + 1], a
 	pop de
 	pop bc
 	pop hl
