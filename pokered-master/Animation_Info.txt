@@ -1,0 +1,19 @@
+; Animation Format
+; each animation is a list of subanimations and special effects
+; if first byte < $56
+;	db tileset_and_delay, sound_id, subanimation_id
+; if first byte >= $D8
+;	db special_effect_id, sound_id
+; $FF terminated
+	
+; SANIM Struct
+	db NN
+	db XX, YY, ZZ
+; NN = Amount of animation frames.
+; XX = Animation tile(s) to use.
+; YY = Screen coord to place tile.
+; ZZ = Special Frame effect
+	; 00 - Display frame normally.
+	; 02 - Add next frame to same frame, display both.
+	; 03 - Add next frame to same frame after small delay.
+	; 04 - Wait a frame, keep previous frame effect going.
