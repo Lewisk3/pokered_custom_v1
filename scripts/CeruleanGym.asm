@@ -54,12 +54,12 @@ CeruleanGymScript_5c70d:
 	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	SetEvent EVENT_GOT_TM11
-	jr .gymVictory
+	jr .asm_5c736
 .BagFull
 	ld a, $7
 	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
-.gymVictory
+.asm_5c736
 	ld hl, wObtainedBadges
 	set 1, [hl]
 	ld hl, wBeatGymFlags
@@ -102,17 +102,17 @@ CeruleanGymTrainerHeader1:
 CeruleanGymText1:
 	TX_ASM
 	CheckEvent EVENT_BEAT_MISTY
-	jr z, .beginBattle
+	jr z, .asm_5c78d
 	CheckEventReuseA EVENT_GOT_TM11
-	jr nz, .afterVictory
+	jr nz, .asm_5c785
 	call z, CeruleanGymScript_5c70d
 	call DisableWaitingAfterTextDisplay
-	jr .done
-.afterVictory
+	jr .asm_5c7bb
+.asm_5c785
 	ld hl, CeruleanGymText_5c7c3
 	call PrintText
-	jr .done
-.beginBattle
+	jr .asm_5c7bb
+.asm_5c78d
 	ld hl, CeruleanGymText_5c7be
 	call PrintText
 	ld hl, wd72d
@@ -131,7 +131,7 @@ CeruleanGymText1:
 	ld [hJoyHeld], a
 	ld a, $3
 	ld [wCeruleanGymCurScript], a
-.done
+.asm_5c7bb
 	jp TextScriptEnd
 
 CeruleanGymText_5c7be:

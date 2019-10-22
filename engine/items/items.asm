@@ -2208,7 +2208,7 @@ ItemUseTMHM:
 	sub TM_01
 	push af
 	jr nc, .skipAdding
-	add 55 ; if item is an HM, add 55
+	add TMHM_END-$C4 ; if item is an HM, decode HM item number (HMs start at C4).
 .skipAdding
 	inc a
 	ld [wd11e], a

@@ -351,6 +351,7 @@ GengarEvosMoves:
 	db 0
 ; Learnset
 	db 29, HYPNOSIS
+	db 33, SHADOWBALL
 	db 38, DREAM_EATER
 	db 0
 
@@ -473,6 +474,7 @@ GastlyEvosMoves:
 	db 0
 ; Learnset
 	db 27, HYPNOSIS
+	db 29, SHADOWBALL
 	db 35, DREAM_EATER
 	db 0
 
@@ -1688,6 +1690,7 @@ HaunterEvosMoves:
 	db 0
 ; Learnset
 	db 29, HYPNOSIS
+	db 33, SHADOWBALL
 	db 38, DREAM_EATER
 	db 0
 

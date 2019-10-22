@@ -148,12 +148,12 @@ ViridianGymScript3_74995:
 	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	SetEvent EVENT_GOT_TM27
-	jr .gymVictory
+	jr .asm_749be
 .BagFull
 	ld a, $e
 	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
-.gymVictory
+.asm_749be
 	ld hl, wObtainedBadges
 	set 7, [hl]
 	ld hl, wBeatGymFlags
@@ -261,13 +261,13 @@ ViridianGymTrainerHeader7:
 ViridianGymText1:
 	TX_ASM
 	CheckEvent EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI
-	jr z, .beginBattle
+	jr z, .asm_6de66
 	CheckEventReuseA EVENT_GOT_TM27
-	jr nz, .afterVictory
+	jr nz, .asm_9fc95
 	call z, ViridianGymScript3_74995
 	call DisableWaitingAfterTextDisplay
-	jr .done
-.afterVictory
+	jr .asm_6dff7
+.asm_9fc95
 	ld a, $1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	ld hl, ViridianGymText_74ad9
@@ -279,8 +279,8 @@ ViridianGymText1:
 	call UpdateSprites
 	call Delay3
 	call GBFadeInFromBlack
-	jr .done
-.beginBattle
+	jr .asm_6dff7
+.asm_6de66
 	ld hl, ViridianGymText_74ace
 	call PrintText
 	ld hl, wd72d
@@ -297,7 +297,7 @@ ViridianGymText1:
 	ld [wGymLeaderNo], a
 	ld a, $3
 	ld [wViridianGymCurScript], a
-.done
+.asm_6dff7
 	jp TextScriptEnd
 
 ViridianGymText_74ace:

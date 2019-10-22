@@ -151,12 +151,12 @@ CinnabarGymScript3_75857:
 	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	SetEvent EVENT_GOT_TM38
-	jr .gymVictory
+	jr .asm_75880
 .BagFull
 	ld a, $c
 	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
-.gymVictory
+.asm_75880
 	ld hl, wObtainedBadges
 	set 6, [hl]
 	ld hl, wBeatGymFlags
@@ -207,17 +207,17 @@ CinnabarGymScript_758b7:
 CinnabarGymText1:
 	TX_ASM
 	CheckEvent EVENT_BEAT_BLAINE
-	jr z, .beginBattle
+	jr z, .asm_d9332
 	CheckEventReuseA EVENT_GOT_TM38
-	jr nz, .afterVictory
+	jr nz, .asm_3012f
 	call z, CinnabarGymScript3_75857
 	call DisableWaitingAfterTextDisplay
 	jp TextScriptEnd
-.afterVictory
+.asm_3012f
 	ld hl, BlaineFireBlastText
 	call PrintText
 	jp TextScriptEnd
-.beginBattle
+.asm_d9332
 	ld hl, BlaineBattleText
 	call PrintText
 	ld hl, BlaineEndBattleText

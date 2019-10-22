@@ -157,3 +157,6 @@ const_value = $C4
 	const TM_48         ; $F8
 	const TM_49         ; $F9
 	const TM_50         ; $FA
+						; Custom items (TMs)
+	const TM_51			; $FB
+	const TMHM_END      ; End of TM/HMs ($FC)

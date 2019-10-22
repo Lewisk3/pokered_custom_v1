@@ -25,6 +25,6 @@ db 3 ; growth rate
 	tmlearn 31,32
 	tmlearn 33,34
 	tmlearn 44
-	tmlearn 50,51
+	tmlearn 50,52
 db 0 ; padding
 MonBaseStatsEnd:

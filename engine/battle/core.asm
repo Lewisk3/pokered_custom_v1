@@ -6832,7 +6832,7 @@ HandleExplodingAnimation:
 
 PlayMoveAnimation:
 	ld [wAnimationID], a
-	call Delay3
+	; call Delay3 - No delay for you!
 	predef_jump MoveAnimation
 
 InitBattle:

@@ -175,4 +175,9 @@ MoveEnd:
 	move SUPER_FANG,   SUPER_FANG_EFFECT,            1, NORMAL,    90, 10
 	move SLASH,        NO_ADDITIONAL_EFFECT,        70, NORMAL,   100, 20
 	move SUBSTITUTE,   SUBSTITUTE_EFFECT,            0, NORMAL,   100, 10
+	
+; Custom Moves
+	move SHADOWBALL,   SPECIAL_DOWN_SIDE_EFFECT,    80, GHOST,    100, 15 
+	
+; Struggle
 	move STRUGGLE,     RECOIL_EFFECT,               50, NORMAL,   100, 10

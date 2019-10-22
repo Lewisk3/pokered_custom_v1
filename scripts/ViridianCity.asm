@@ -19,10 +19,10 @@ ViridianCityScript_1900b:
 	ret nz
 	ld a, [wObtainedBadges]
 	cp %01111111
-	jr nz, .gymClosed
+	jr nz, .asm_1901e
 	SetEvent EVENT_VIRIDIAN_GYM_OPEN
 	ret
-.gymClosed
+.asm_1901e
 	ld a, [wYCoord]
 	cp $8
 	ret nz
@@ -150,11 +150,11 @@ ViridianCityText2:
 	ld a, [wObtainedBadges]
 	cp %01111111
 	ld hl, ViridianCityText_19127
-	jr z, .printAndDone
+	jr z, .asm_ae9fe
 	CheckEvent EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI
-	jr nz, .printAndDone
+	jr nz, .asm_ae9fe
 	ld hl, ViridianCityText_19122
-.printAndDone
+.asm_ae9fe
 	call PrintText
 	jp TextScriptEnd
 
@@ -173,14 +173,14 @@ ViridianCityText3:
 	call YesNoChoice
 	ld a, [wCurrentMenuItem]
 	and a
-	jr nz, .no
+	jr nz, .asm_6dfea
 	ld hl, ViridianCityText_19157
 	call PrintText
-	jr .done
-.no
+	jr .asm_d611f
+.asm_6dfea
 	ld hl, ViridianCityText_19152
 	call PrintText
-.done
+.asm_d611f
 	jp TextScriptEnd
 
 ViridianCityText_1914d:
@@ -198,14 +198,14 @@ ViridianCityText_19157:
 ViridianCityText4:
 	TX_ASM
 	CheckEvent EVENT_GOT_POKEDEX
-	jr nz, .gotPokedex
+	jr nz, .asm_83894
 	ld hl, ViridianCityText_19175
 	call PrintText
-	jr .done
-.gotPokedex
+	jr .asm_700a6
+.asm_83894
 	ld hl, ViridianCityText_1917a
 	call PrintText
-.done
+.asm_700a6
 	jp TextScriptEnd
 
 ViridianCityText_19175:
@@ -232,7 +232,7 @@ ViridianCityText_19191:
 ViridianCityText6:
 	TX_ASM
 	CheckEvent EVENT_GOT_TM42
-	jr nz, .gotTm42
+	jr nz, .asm_4e5a0
 	ld hl, ViridianCityText_191ca
 	call PrintText
 	lb bc, TM_42, 1
@@ -241,15 +241,15 @@ ViridianCityText6:
 	ld hl, ReceivedTM42Text
 	call PrintText
 	SetEvent EVENT_GOT_TM42
-	jr .done
+	jr .asm_3c73c
 .BagFull
 	ld hl, TM42NoRoomText
 	call PrintText
-	jr .done
-.gotTm42
+	jr .asm_3c73c
+.asm_4e5a0
 	ld hl, TM42Explanation
 	call PrintText
-.done
+.asm_3c73c
 	jp TextScriptEnd
 
 ViridianCityText_191ca:
@@ -278,16 +278,16 @@ ViridianCityText7:
 	call YesNoChoice
 	ld a, [wCurrentMenuItem]
 	and a
-	jr z, .hurry
+	jr z, .asm_42f68
 	ld hl, ViridianCityText_1920f
 	call PrintText
 	ld a, $1
 	ld [wViridianCityCurScript], a
-	jr .done
-.hurry
+	jr .asm_2413a
+.asm_42f68
 	ld hl, ViridianCityText_19214
 	call PrintText
-.done
+.asm_2413a
 	jp TextScriptEnd
 
 ViridianCityText_1920a:

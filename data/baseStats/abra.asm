@@ -17,12 +17,12 @@ db 0
 db 0
 db 0
 db 3 ; growth rate
-; learnset
+; learnset - all moves above 51 are HMs
 	tmlearn 1,5,6,8
 	tmlearn 9,10
 	tmlearn 17,18,19,20
 	tmlearn 29,30,31,32
 	tmlearn 33,34,35,40
 	tmlearn 44,45,46
-	tmlearn 49,50,55
+	tmlearn 49,50,51,52
 db 0 ; padding

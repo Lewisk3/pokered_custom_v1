@@ -163,6 +163,7 @@ AttackAnimationPointers:
 	dw SuperFangAnim
 	dw SlashAnim
 	dw SubstituteAnim
+	dw ShadowBallAnim  ; Custom Move
 	dw StruggleAnim
 	dw ShowPicAnim
 	dw EnemyFlashAnim
@@ -203,6 +204,7 @@ AttackAnimationPointers:
 	dw ThrowBaitAnim
 	dw ZigZagScreenAnim
 
+; Animation Format
 ; each animation is a list of subanimations and special effects
 ; if first byte < $56
 ;	db tileset_and_delay, sound_id, subanimation_id
@@ -1124,6 +1126,15 @@ SubstituteAnim:
 	db SE_SUBSTITUTE_MON, $FF
 	db $FF
 
+ShadowBallAnim:
+	db SE_DARK_SCREEN_PALETTE, $3C
+	db $04,$3C,$56 ; 2E
+	db SE_FLASH_SCREEN_LONG, $6C
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $FF
+
+; End of Move animations.
+
 BallTossAnim:
 	db $03,$FF,$06
 	db $FF
@@ -1347,6 +1358,7 @@ SubanimationPointers:
 	dw Subanimation53
 	dw Subanimation54
 	dw Subanimation55
+	dw Subanimation56
 
 Subanimation04:
 	db $43
@@ -1540,7 +1552,7 @@ Subanimation1f:
 	db $0c,$42,$03
 	db $0c,$21,$00
 
-Subanimation2e:
+Subanimation2e: ; Ice Beam animation
 	db $2e
 	db $18,$43,$02
 	db $75,$52,$04
@@ -2204,6 +2216,27 @@ Subanimation54:
 	db $79,$0e,$00
 	db $79,$a9,$00
 	db $79,$34,$00
+	
+SHADOW_ANIM1 EQU $30
+SHADOW_ANIM2 EQU $01
+Subanimation56: ; Shadow Ball test
+	db $10
+	db SHADOW_ANIM1,$52,$03
+	db SHADOW_ANIM2,$63,$00
+	db $34,$63,$00
+	db SHADOW_ANIM1,$63,$03
+	db SHADOW_ANIM2,$4d,$00
+	db $34,$63,$00
+	db SHADOW_ANIM1,$4d,$03
+	db SHADOW_ANIM2,$97,$00
+	db $34,$63,$00
+	db SHADOW_ANIM1,$97,$03
+	db SHADOW_ANIM2,$98,$00
+	db $34,$63,$00
+	db SHADOW_ANIM1,$98,$03
+	db SHADOW_ANIM2,$58,$00
+	db SHADOW_ANIM1,$58,$02
+	db SHADOW_ANIM1,$1b,$00
 
 FrameBlockPointers:
 	dw FrameBlock00

@@ -207,11 +207,11 @@ PewterCityText3:
 	call YesNoChoice
 	ld a, [wCurrentMenuItem]
 	and a
-	jr nz, .playerDidNotGoIntoMuseum
+	jr nz, .asm_193c9
 	ld hl, PewterCityText_193f6
 	call PrintText
-	jr .done
-.playerDidNotGoIntoMuseum
+	jr .asm_193ee
+.asm_193c9
 	ld hl, PewterCityText_193fb
 	call PrintText
 	xor a
@@ -227,7 +227,7 @@ PewterCityText3:
 	call GetSpritePosition2
 	ld a, $1
 	ld [wPewterCityCurScript], a
-.done
+.asm_193ee
 	jp TextScriptEnd
 
 PewterCityText_193f1:
@@ -253,14 +253,14 @@ PewterCityText4:
 	call YesNoChoice
 	ld a, [wCurrentMenuItem]
 	cp $0
-	jr nz, .playerDoesNotKnow
+	jr nz, .asm_1941e
 	ld hl, PewterCityText_1942c
 	call PrintText
-	jr .done
-.playerDoesNotKnow
+	jr .asm_19424
+.asm_1941e
 	ld hl, PewterCityText_19431
 	call PrintText
-.done
+.asm_19424
 	jp TextScriptEnd
 
 PewterCityText_19427:

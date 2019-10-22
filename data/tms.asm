@@ -49,6 +49,9 @@ TechnicalMachines:
 	db ROCK_SLIDE
 	db TRI_ATTACK
 	db SUBSTITUTE
+; Custom TMs
+	db SHADOWBALL
+; HMs
 	db CUT
 	db FLY
 	db SURF

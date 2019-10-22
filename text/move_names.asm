@@ -163,5 +163,6 @@ MoveNames::
 	db "SUPER FANG@"
 	db "SLASH@"
 	db "SUBSTITUTE@"
+	db "SHADOW BALL@"
 	db "STRUGGLE@"
 

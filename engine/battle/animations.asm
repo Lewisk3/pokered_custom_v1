@@ -1484,10 +1484,10 @@ AnimationBlinkMon:
 .loop
 	push bc
 	call AnimationHideMonPic
-	ld c, 5
+	ld c, 3 ; was 5
 	call DelayFrames
 	call AnimationShowMonPic
-	ld c, 5
+	ld c, 3 ; was 5
 	call DelayFrames
 	pop bc
 	dec c
