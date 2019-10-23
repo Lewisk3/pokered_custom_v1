@@ -67,8 +67,8 @@ PrizeMenuTMsEntries:
 	db "@"
 
 PrizeMenuTMsCost:
-	coins 3300
-	coins 5500
-	coins 6000
-	coins 7700
+	coins 3000
+	coins 3500
+	coins 4000
+	coins 4500
 	db "@"
