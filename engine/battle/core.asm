@@ -4260,8 +4260,13 @@ GetDamageVarsForPlayerAttack:
 	bit HAS_REFLECT_UP, a ; check for Reflect
 	jr z, .physicalAttackCritCheck
 ; if the enemy has used Reflect, double the enemy's defense
+; clamp MSB to 3 so it's impossible to go beyond maximum possible stat value of 1023.
 	sla c
 	rl b
+	ld a, b
+	cp 3
+	jr c, .physicalAttackCritCheck
+	ld b, 3
 .physicalAttackCritCheck
 	ld hl, wBattleMonAttack
 	ld a, [wCriticalHitOrOHKO]
@@ -4294,6 +4299,11 @@ GetDamageVarsForPlayerAttack:
 	rl b
 ; reflect and light screen boosts do not cap the stat at 999, so weird things will happen during stats scaling if
 ; a Pokemon with 512 or more Defense has used Reflect, or if a Pokemon with 512 or more Special has used Light Screen
+; The above bug is fixed by clamping the maximum value to 1023, which can be handled because the game divides stats by 4 to fit in 1 byte.
+	ld a, b
+	cp 3
+	jr c, .specialAttackCritCheck
+	ld b, 3
 .specialAttackCritCheck
 	ld hl, wBattleMonSpecial
 	ld a, [wCriticalHitOrOHKO]
@@ -4375,6 +4385,10 @@ GetDamageVarsForEnemyAttack:
 ; if the player has used Reflect, double the player's defense
 	sla c
 	rl b
+	ld a, b
+	cp 3
+	jr c, .physicalAttackCritCheck
+	ld b, 3
 .physicalAttackCritCheck
 	ld hl, wEnemyMonAttack
 	ld a, [wCriticalHitOrOHKO]
@@ -4407,6 +4421,11 @@ GetDamageVarsForEnemyAttack:
 	rl b
 ; reflect and light screen boosts do not cap the stat at 999, so weird things will happen during stats scaling if
 ; a Pokemon with 512 or more Defense has used Reflect, or if a Pokemon with 512 or more Special has used Light Screen
+; The above bug is fixed by clamping the maximum value to 1023, which can be handled because the game divides stats by 4 to fit in 1 byte.
+	ld a, b
+	cp 3
+	jr c, .specialAttackCritCheck
+	ld b, 3
 .specialAttackCritCheck
 	ld hl, wEnemyMonSpecial
 	ld a, [wCriticalHitOrOHKO]
