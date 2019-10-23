@@ -3775,6 +3775,7 @@ HandleSelfConfusionDamage:
 	call DrawPlayerHUDAndHPBar
 	xor a
 	ld [H_WHOSETURN], a
+	ld c, $01
 	jp ApplyDamageToPlayerPokemon
 
 PrintMonName1Text:
@@ -3977,6 +3978,7 @@ PrintMoveFailureText:
 	ld a, [H_WHOSETURN]
 	and a
 	jr nz, .enemyTurn
+	ld c, 0
 	jp ApplyDamageToPlayerPokemon
 .enemyTurn
 	jp ApplyDamageToEnemyPokemon
@@ -4826,6 +4828,7 @@ HandleCounterMove:
 	ret
 
 ApplyAttackToEnemyPokemon:
+	ld c, 0
 	ld a, [wPlayerMoveEffect]
 	cp OHKO_EFFECT
 	jr z, ApplyDamageToEnemyPokemon
@@ -4898,11 +4901,15 @@ ApplyDamageToEnemyPokemon:
 	ld a, [hl]
 	or b
 	jr z, ApplyAttackToEnemyPokemonDone ; we're done if damage is 0
+	ld a, c	; If we're dealing damage due to confusion, don't process as substitute.
+	or c
+	jp nz, .skipSubstitute
 	ld a, [wEnemyBattleStatus2]
 	bit HAS_SUBSTITUTE_UP, a ; does the enemy have a substitute?
 	jp nz, AttackSubstitute
 ; subtract the damage from the pokemon's current HP
 ; also, save the current HP at wHPBarOldHP
+.skipSubstitute
 	ld a, [hld]
 	ld b, a
 	ld a, [wEnemyMonHP + 1]
@@ -4945,6 +4952,7 @@ ApplyAttackToEnemyPokemonDone:
 	jp DrawHUDsAndHPBars
 
 ApplyAttackToPlayerPokemon:
+	ld c, 0
 	ld a, [wEnemyMoveEffect]
 	cp OHKO_EFFECT
 	jr z, ApplyDamageToPlayerPokemon
@@ -5017,11 +5025,15 @@ ApplyDamageToPlayerPokemon:
 	ld a, [hl]
 	or b
 	jr z, ApplyAttackToPlayerPokemonDone ; we're done if damage is 0
+	ld a, c	; If we're dealing damage due to confusion, don't process as substitute.
+	or c
+	jp nz, .skipSubstitute
 	ld a, [wPlayerBattleStatus2]
 	bit HAS_SUBSTITUTE_UP, a ; does the player have a substitute?
 	jp nz, AttackSubstitute
 ; subtract the damage from the pokemon's current HP
 ; also, save the current HP at wHPBarOldHP and the new HP at wHPBarNewHP
+.skipSubstitute
 	ld a, [hld]
 	ld b, a
 	ld a, [wBattleMonHP + 1]
@@ -5113,8 +5125,12 @@ AttackSubstitute:
 	jr z, .nullifyEffect
 	ld hl, wEnemyMoveEffect ; value for enemy's turn
 .nullifyEffect
+	ld a, [hl]				; Do not nullify moves effect if it is explode.
+	cp EXPLODE_EFFECT		
+	jr z, .keepExplodeEffect
 	xor a
 	ld [hl], a ; zero the effect of the attacker's move
+.keepExplodeEffect
 	jp DrawHUDsAndHPBars
 
 SubstituteTookDamageText:
@@ -6027,6 +6043,7 @@ CheckEnemyStatusConditions:
 	call PlayMoveAnimation
 	ld a, $1
 	ld [H_WHOSETURN], a
+	ld c, $01
 	call ApplyDamageToEnemyPokemon
 	jr .monHurtItselfOrFullyParalysed
 .checkIfTriedToUseDisabledMove
