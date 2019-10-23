@@ -578,6 +578,7 @@ HandlePoisonBurnLeechSeed:
 .poisoned
 	call PrintText
 	xor a
+	ld [wBuffer+2], a            ; Damage isn't leech seed damage.
 	ld [wAnimationType], a
 	ld a, BURN_PSN_ANIM
 	call PlayMoveAnimation   ; play burn/poison animation
@@ -601,10 +602,11 @@ HandlePoisonBurnLeechSeed:
 	xor a
 	ld [wAnimationType], a
 	ld a, ABSORB
+	ld [wBuffer+2], a  		   ; Serves as a flag to prevent damage stacking.
 	call PlayMoveAnimation ; play leech seed animation (from opposing mon)
 	pop af
 	ld [H_WHOSETURN], a
-	pop hl
+	pop hl	   
 	call HandlePoisonBurnLeechSeed_DecreaseOwnHP
 	call HandlePoisonBurnLeechSeed_IncreaseEnemyHP
 	push hl
@@ -667,6 +669,9 @@ HandlePoisonBurnLeechSeed_DecreaseOwnHP:
 	ld hl, wEnemyBattleStatus3
 	ld de, wEnemyToxicCounter
 .playersTurn
+	ld a, [wBuffer+2]  ; Check for leech seed, if so skip toxic ticks.
+	cp ABSORB      
+	jr z, .noToxic
 	bit BADLY_POISONED, [hl]
 	jr z, .noToxic
 	ld a, [de]    ; increment toxic counter
