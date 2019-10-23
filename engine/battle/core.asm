@@ -577,7 +577,7 @@ HandlePoisonBurnLeechSeed:
 	ld hl, HurtByBurnText
 .poisoned
 	call PrintText
-	xor a
+	ld a, ABSORB
 	ld [wBuffer+2], a            ; Damage isn't leech seed damage.
 	ld [wAnimationType], a
 	ld a, BURN_PSN_ANIM
@@ -601,7 +601,7 @@ HandlePoisonBurnLeechSeed:
 	ld [H_WHOSETURN], a
 	xor a
 	ld [wAnimationType], a
-	ld a, ABSORB
+	xor a
 	ld [wBuffer+2], a  		   ; Serves as a flag to prevent damage stacking.
 	call PlayMoveAnimation ; play leech seed animation (from opposing mon)
 	pop af
@@ -669,9 +669,9 @@ HandlePoisonBurnLeechSeed_DecreaseOwnHP:
 	ld hl, wEnemyBattleStatus3
 	ld de, wEnemyToxicCounter
 .playersTurn
-	ld a, [wBuffer+2]  ; Check for leech seed, if so skip toxic ticks.
-	cp ABSORB      
-	jr z, .noToxic
+	ld a, [wBuffer+2]  ; Check for ABSORB flag, if not, skip toxic ticks.
+	cp ABSORB 		   ; ABSORB is used to specifically trigger poison.    
+	jr nz, .noToxic
 	bit BADLY_POISONED, [hl]
 	jr z, .noToxic
 	ld a, [de]    ; increment toxic counter
@@ -7329,6 +7329,8 @@ PoisonEffect:
 	cp b ; was side effect successful?
 	ret nc
 .inflictPoison
+	xor a					
+	ld [wPlayerToxicCounter], a ; Reset toxic counter.
 	dec hl
 	set 3, [hl] ; mon is now poisoned
 	push de
