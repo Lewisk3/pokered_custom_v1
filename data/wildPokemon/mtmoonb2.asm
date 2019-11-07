@@ -1,5 +1,5 @@
 MoonMonsB2:
-	db $0A
+	db $06
 	db 9,ZUBAT
 	db 9,GEODUDE
 	db 10,ZUBAT
