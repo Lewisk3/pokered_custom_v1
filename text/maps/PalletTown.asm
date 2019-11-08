@@ -3,13 +3,14 @@ _OakAppearsText::
 	line "Don't go out!@@"
 
 _OakWalksUpText::
-	text "OAK: Wait!"
-	line "A Bethesda.net" 
-	cont "account is" 
+	text "OAK: It's unsafe!"
+	line "Wild #MON live"
+	cont "in tall grass!"
 
-	para "required to"
-	line "access this"
-	cont "feature!"
+	para "You need your own"
+	line "#MON for your"
+	cont "protection."
+	cont "I know!"
 
 	para "Here, come with"
 	line "me!"
