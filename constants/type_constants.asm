@@ -6,7 +6,7 @@ POISON   EQU $03
 GROUND   EQU $04
 ROCK     EQU $05
 BUG      EQU $07
-GHOST    EQU $08
+GHOST    EQU $1B ; $08 - Now that it's greater than FIRE, will be special.
 FIRE     EQU $14
 WATER    EQU $15
 GRASS    EQU $16
